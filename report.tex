@@ -3,6 +3,7 @@
 \usepackage{hyperref}
 \usepackage[final]{pdfpages}
 \usepackage{subcaption}
+\usepackage{cite}
 
 \title{A Title}
 
@@ -24,7 +25,7 @@ by Prof. Alexandre Francisco \cite{aplf}.
 
 \section{Methods}
 The network was originally represented as an edge list which was subsequently converted in an adjacency list (ASCII Graph), by use of a simple \texttt{C++} program, as this is the input
-format for Webgraph's compression algorithms.
+format for Webgraph's compression algorithms. 
 
 
 
@@ -36,8 +37,7 @@ Our network contains $1\,603\,222$ vertices and $49\,021\,409$ edges. Both the m
 
 \subsection{Outras coisas}
 
-In figure ~\ref{fig:inddist} we present the cumulative out degree distribution and ~\ref{fig:outddist}
-
+In figure ~\ref{fig:inddist}/~\ref{fig:outddist} we present the cumulative in/out degree distribution and its approximate power law regression. The regression was obtained using a simplified method based on the one described by Clauset et al. \cite{Clauset2009}. 
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}{.5\textwidth}
@@ -59,19 +59,9 @@ In figure ~\ref{fig:inddist} we present the cumulative out degree distribution a
 
 \section{Discussion}
 
-\begin{thebibliography}{9}
-\bibitem{dataset}
-Wikipedia links, portuguese network dataset -- KONECT, April 2017.
-\\ \url{http://konect.uni-koblenz.de/networks/wikipedia\_link\_pt}
+The cumulative in degree $\gamma = 2.42$ parameter is lower than its out degree counterpart $\gamma = 3.89$. Although our data is unlabelled, we believe this phenomenon occurs because there are few Wikipedia pages which reference most of the others (indexes), leading to a higher $\gamma$ in the out degree distribution. Conversely, the in degree distribution parameter $\gamma = 2.42$ is lower because pages are comparatively more uniformly referenced??
 
-\bibitem{webgraph}
-Webgraph
-\\ \url{http://webgraph.di.unimi.it}
-
-\bibitem{aplf}
-A P Francisco: Webgraph related stuff
-\\ \url{http://web.ist.utl.pt/aplf/code/webgraph}
-
-\end{thebibliography}
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}
