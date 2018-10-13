@@ -52,8 +52,9 @@ for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegre
     plt.rc('font', family='serif')
 
     plt.loglog(x, y)
-    plt.loglog(x[x_min:x_max], np.array(x[x_min:x_max]) ** slope * np.exp(intercept))
+    plt.loglog(x[x_min:x_max], np.array(x[x_min:x_max]) ** slope * np.exp(intercept), label="$ \gamma = " + str("{0:.2f}".format(abs(slope) + 1)) + "$")
     plt.xlabel('Cumulative ' + name.capitalize() + ' Degree')
     plt.ylabel('Frequency')
+    plt.legend()
 
     plt.savefig("wikipedia_pt_" + name + ".pdf")
