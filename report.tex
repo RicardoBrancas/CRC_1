@@ -1,4 +1,4 @@
-\documentclass[9pt,a4paper]{article}
+\documentclass[9pt,a4paper,twocolumn]{article}
 \usepackage[margin=0.7in]{geometry}
 \usepackage{hyperref}
 \usepackage[final]{pdfpages}
@@ -37,22 +37,31 @@ Our network contains $1\,603\,222$ vertices and $49\,021\,409$ edges. Both the m
 
 \subsection{Outras coisas}
 
-In figure ~\ref{fig:inddist}/~\ref{fig:outddist} we present the cumulative in/out degree distribution and its approximate power law regression. The regression was obtained using a simplified method based on the one described by Clauset et al. \cite{Clauset2009}. 
+In figure ~\ref{fig:inddist}/~\ref{fig:outddist} we present the cumulative in/out degree distribution and its approximate power law regression. The regression was obtained using a simplified method based on the one described by Clauset et al. \cite{Clauset2009}.
+
+Fig
 \begin{figure}[h]
 	\centering
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.45\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{wikipedia_pt_in.pdf}
 		\caption{Cumulative in-degree distribution.}
 		\label{fig:inddist}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
+	\end{subfigure}
+	\begin{subfigure}{.45\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{wikipedia_pt_out.pdf}
 		\caption{Cumulative out-degree distribution.}
 		\label{fig:outddist}
 	\end{subfigure}
 	\caption{Degree distributions.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{wikipedia_pt_sccdistr.pdf}
+	\caption{Cumulative in-degree distribution.}
+	\label{fig:sccdist}
 \end{figure}
 
 
