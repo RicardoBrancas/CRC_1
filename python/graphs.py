@@ -5,13 +5,18 @@ import numpy as np
 from scipy import stats
 import math
 
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+
+# DEGREE DISTRIBUTION
+
 for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegree', 'in')]:
 
     x = []
     y = []
 
     with open(filename,'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=',')
+        plots = csv.reader(csvfile, delimiter='\t')
         i = 0
         for row in plots:
             x.append(i)
@@ -48,9 +53,6 @@ for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegre
 
     plt.clf()
 
-    plt.rc('text', usetex=True)
-    plt.rc('font', family='serif')
-
     plt.loglog(x, y)
     plt.loglog(x[x_min:x_max], np.array(x[x_min:x_max]) ** slope * np.exp(intercept), label="$ \gamma = " + str("{0:.2f}".format(abs(slope) + 1)) + "$")
     plt.xlabel('Cumulative ' + name.capitalize() + ' Degree')
@@ -58,3 +60,24 @@ for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegre
     plt.legend()
 
     plt.savefig("wikipedia_pt_" + name + ".pdf")
+
+# SCC DISTRIBUTION
+
+size = []
+count = []
+
+with open('wikipedia_pt.sccdistr','r') as csvfile:
+    plots = csv.reader(csvfile, delimiter='\t')
+    for row in plots:
+        size.append(row[0])
+        count.append(int(row[1]))
+
+size.reverse()
+count.reverse()
+
+plt.clf()
+
+plt.bar(size, count)
+plt.ylabel('Absolute Frequency')
+plt.xlabel('Size of Strongly Connected Component')
+plt.savefig('wikipedia_pt_sccdistr.pdf')
