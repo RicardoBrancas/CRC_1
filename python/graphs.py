@@ -5,7 +5,7 @@ import numpy as np
 from scipy import stats
 import math
 
-for filename in ['wikipedia_pt.outdegree', 'wikipedia_pt.indegree']:
+for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegree', 'in')]:
 
     x = []
     y = []
@@ -26,7 +26,7 @@ for filename in ['wikipedia_pt.outdegree', 'wikipedia_pt.indegree']:
 
     y = np.array(y) / y[0]
 
-    max_error = 0.98
+    max_error = 0.981
 
     logmiddle_index = int(math.sqrt(len(x)))
 
@@ -46,15 +46,14 @@ for filename in ['wikipedia_pt.outdegree', 'wikipedia_pt.indegree']:
 
     print(x_min, x_max, slope)
 
+    plt.clf()
+
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
 
     plt.loglog(x, y)
     plt.loglog(x[x_min:x_max], np.array(x[x_min:x_max]) ** slope * np.exp(intercept))
-    plt.xlabel('Cumulative ' + "out" + ' Degree')
+    plt.xlabel('Cumulative ' + name.capitalize() + ' Degree')
     plt.ylabel('Frequency')
-    plt.title('Cumulative ' + "out" + ' Degree Distribution')
 
-    plt.savefig(filename + ".pdf")
-
-    plt.show()
+    plt.savefig("wikipedia_pt_" + name + ".pdf")
