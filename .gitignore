@@ -1,3 +1,7 @@
 .idea/
 target/
 latex.out/
+*.class
+*.log
+*.aux
+*.out

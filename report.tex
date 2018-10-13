@@ -1,5 +1,8 @@
 \documentclass[9pt,a4paper]{article}
+\usepackage[margin=0.7in]{geometry}
 \usepackage{hyperref}
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
 
 \title{A Title}
 
@@ -9,8 +12,37 @@
 \maketitle
 
 \section{Introduction}
+The goal of this project is to analyse and characterize a real world network, and to  get 
+acquainted with tools and methods which will be useful in following endeavours.
+As such, we have chosen to analyse a snapshot of the portuguese section of Wikipedia \cite{dataset};
+we have chosen such a large network in order to get familiarized with tools such as Webgraph \cite{webgraph}.
+
+To analyse our data we use Webgraph, including snippets of code made available
+by Prof. Alexandre Francisco \cite{aplf}.
+
+%TODO
 
 \section{Results}
+Presented in figures~\ref{fig:inddist} and~\ref{fig:outddist}
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{wikipedia_pt_in.pdf}
+		\caption{Cumulative in-degree distribution.}
+		\label{fig:inddist}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{wikipedia_pt_out.pdf}
+		\caption{Cumulative out-degree distribution.}
+		\label{fig:outddist}
+	\end{subfigure}
+	\caption{Degree distributions.}
+\end{figure}
+
+
 
 \section{Discussion}
 
@@ -18,6 +50,14 @@
 \bibitem{dataset}
 Wikipedia links, portuguese network dataset -- KONECT, April 2017.
 \\ \url{http://konect.uni-koblenz.de/networks/wikipedia\_link\_pt}
+
+\bibitem{webgraph}
+Webgraph
+\\ \url{http://webgraph.di.unimi.it/}
+
+\bibitem{aplf}
+A P Francisco: Webgraph related stuff
+\\ \url{http://web.ist.utl.pt/aplf/code/webgraph/}
 
 \end{thebibliography}
 
