@@ -14,7 +14,7 @@
 \section{Introduction}
 The goal of this project is to analyse and characterize a real world network, and to  get 
 acquainted with tools and methods which will be useful in following endeavours.
-As such, we have chosen to analyse a snapshot of the portuguese section of Wikipedia \cite{dataset};
+As such, we have chosen to analyse a snapshot of the Portuguese section of Wikipedia \cite{dataset};
 we have chosen such a large network in order to get familiarized with tools such as Webgraph \cite{webgraph}.
 
 To analyse our data we use Webgraph, including snippets of code made available
@@ -22,8 +22,21 @@ by Prof. Alexandre Francisco \cite{aplf}.
 
 %TODO
 
+\section{Methods}
+The network was originally represented as an edge list which was subsequently converted in an adjacency list (ASCII Graph), by use of a simple \texttt{C++} program, as this is the input
+format for Webgraph's compression algorithms.
+
+
+
+
+
 \section{Results}
-Presented in figures~\ref{fig:inddist} and~\ref{fig:outddist}
+\subsection{Data summary}
+Our network contains $1\,603\,222$ vertices and $49\,021\,409$ edges. Both the minimum in and out degrees are $0$, the maximum in degree is $207254$, and the maximum out degree is $12237$, finally the combined average degree of approximately $61.15$.
+
+\subsection{Outras coisas}
+
+In figure ~\ref{fig:inddist} we present the cumulative out degree distribution and ~\ref{fig:outddist}
 
 \begin{figure}[h]
 	\centering
@@ -53,11 +66,11 @@ Wikipedia links, portuguese network dataset -- KONECT, April 2017.
 
 \bibitem{webgraph}
 Webgraph
-\\ \url{http://webgraph.di.unimi.it/}
+\\ \url{http://webgraph.di.unimi.it}
 
 \bibitem{aplf}
 A P Francisco: Webgraph related stuff
-\\ \url{http://web.ist.utl.pt/aplf/code/webgraph/}
+\\ \url{http://web.ist.utl.pt/aplf/code/webgraph}
 
 \end{thebibliography}
 
