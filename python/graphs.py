@@ -26,6 +26,14 @@ for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegre
     x = x[1:]
     y = y[1:]
 
+    plt.clf()
+    plt.loglog(x, y)
+    plt.xlabel(name.capitalize() + ' Degree')
+    plt.ylabel('Frequency')
+    plt.legend()
+
+    plt.savefig("wikipedia_pt_non_cumul_" + name + ".pdf")
+
     for i in range(len(y)-1, 0, -1):
         y[i-1] += y[i]
 
@@ -81,3 +89,72 @@ plt.bar(size, count)
 plt.ylabel('Absolute Frequency')
 plt.xlabel('Size of Strongly Connected Component')
 plt.savefig('wikipedia_pt_sccdistr.pdf')
+
+# NEIGHBOURHOOD FUNCTION
+
+size = []
+count = []
+
+with open('wikipedia_pt_neighbourhood_function.out','r') as csvfile:
+    plots = csv.reader(csvfile, delimiter='\t')
+    i = 1
+    for row in plots:
+        size.append(i)
+        i+=1
+        count.append(float(row[0]))
+
+plt.clf()
+
+plt.plot(size, count)
+plt.ylabel('Pairs of Nodes Connected')
+plt.xlabel('Distance')
+plt.savefig('wikipedia_pt_neighbourhood_function.pdf')
+
+# CLOSENESS CENTRALITY
+import struct
+
+cc = []
+with open('wikipedia_pt_closeness_centrality.out', 'br') as data:
+    d = data.read(4)
+    while d:
+        (n,) = struct.unpack('!f', d)
+        cc.append(n)
+        d = data.read(4)
+
+plt.clf()
+plt.hist(cc, 20)
+plt.ylabel('Absolute Frequency')
+plt.xlabel('Closeness Centrality')
+plt.savefig('wikipedia_pt_closeness_centrality.pdf')
+
+# HARMONIC CENTRALITY
+import struct
+
+cc = []
+with open('wikipedia_pt_harmonic_centrality.out', 'br') as data:
+    d = data.read(4)
+    while d:
+        (n,) = struct.unpack('!f', d)
+        cc.append(n)
+        d = data.read(4)
+
+plt.clf()
+plt.hist(cc, 35)
+plt.ylabel('Absolute Frequency')
+plt.xlabel('Harmonic Centrality')
+plt.savefig('wikipedia_pt_harmonic_centrality.pdf')
+
+# SUM OF DISTANCES
+import struct
+
+cc = []
+with open('wikipedia_pt_sum_of_distances.out', 'br') as data:
+    d = data.read(4)
+    while d:
+        (n,) = struct.unpack('!f', d)
+        cc.append(n)
+        d = data.read(4)
+
+plt.clf()
+plt.hist(cc, 20)
+plt.savefig('wikipedia_pt_sum_of_distances.pdf')
