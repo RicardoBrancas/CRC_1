@@ -1,9 +1,16 @@
 \documentclass[9pt,a4paper,twocolumn]{article}
-\usepackage[margin=0.7in]{geometry}
+\usepackage[margin=0.9in]{geometry}
 \usepackage{hyperref}
 \usepackage[final]{pdfpages}
 \usepackage{subcaption}
 \usepackage{cite}
+\usepackage[acronym]{glossaries}
+
+ \setlength{\columnsep}{0.25in}
+
+\makeglossaries
+
+\newacronym{scc}{SCC}{Strongly Connected Components}
 
 \title{An Analysis of the Portuguese Section of Wikipedia}
 
@@ -13,45 +20,40 @@
 \maketitle
 
 \section{Introduction}
-The goal of this project is to analyse and characterize a real world network, and to  get 
+The goal of this project is to analyse and characterise a real world network, and to  get 
+
 acquainted with tools and methods which will be useful in following endeavours.
 As such, we have chosen to analyse a snapshot of the Portuguese section of Wikipedia \cite{dataset};
 we have chosen such a large network in order to get familiarized with tools such as Webgraph \cite{webgraph}.
 
+%TODO
+
 To analyse our data we use Webgraph, including snippets of code made available
 by Prof. Alexandre Francisco \cite{aplf}.
 
-%TODO
-
 \section{Methods}
 The network was originally represented as an edge list which was subsequently converted in an adjacency list (ASCII Graph), by use of a simple \texttt{C++} program, as this is the input
-format for Webgraph's compression algorithms. 
+format for Webgraph's compression algorithms.
 
-
-
+After running Webgraph, we used a Python script to parse the output and generate the figures present in this document.
 
 
 \section{Results}
 
-Our network contains $1\,603\,222$ vertices and $49\,021\,409$ edges. Both the minimum in and out degrees are $0$, the maximum in degree is $207254$ while the maximum out degree is $12237$, finally the combined average degree of approximately $61.15$.
+The network we have chosen contains $1\,603\,222$ vertices and $49\,021\,409$ edges. Both the minimum in and out-degrees are $0$, the maximum in-degree is $207\,254$ while the maximum out-degree is $12\,237$, finally the combined average degree is approximately $61.15$. Furthermore, there are 121 \acrlong{scc}, the largest being comprised of $1\,602\,960$ nodes.
 \vspace{1\baselineskip}
 
-In figure ~\ref{fig:inddist}/~\ref{fig:outddist} we present the cumulative in/out degree distribution and its approximate power law regression. The regression was obtained using a simplified method based on the one described by Clauset et al. \cite{Clauset2009}.
-
-Figure \ref{fig:sccdist} shows the number of strongly connected components with respect to their cardinality. We notice a giant strongly connected component, as would be expected.
-
-Figure \ref{fig:neighfun} 
-
+In figures ~\ref{fig:inddist} and~\ref{fig:outddist} we present the cumulative in and out, respectively, degree distributions and their approximate power law regression. The regression was obtained using a simplified method based on the one described by Clauset et al. \cite{Clauset2009}.
 
 \begin{figure}[h]
 	\centering
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.475\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{wikipedia_pt_in.pdf}
 		\caption{Cumulative in-degree distribution.}
 		\label{fig:inddist}
 	\end{subfigure}
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.475\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{wikipedia_pt_out.pdf}
 		\caption{Cumulative out-degree distribution.}
@@ -60,6 +62,8 @@ Figure \ref{fig:neighfun}
 	\caption{Degree distributions.}
 \end{figure}
 
+Figure \ref{fig:sccdist} shows the number of \acrshort{scc} with respect to their cardinality. We notice a giant strongly connected component, as would be expected.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{wikipedia_pt_sccdistr.pdf}
@@ -67,17 +71,28 @@ Figure \ref{fig:neighfun}
 	\label{fig:sccdist}
 \end{figure}
 
+In figure \ref{fig:neighfun} is represented the approximate neighbourhood function as computed by Webgraph. This measure represents for each $t \in N$, the number of pairs of nodes $ \langle x, y \rangle $ such that $y$ is reachable from $x$ in less than $t$ hops \cite{Boldi2011HyperANFAT}.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{wikipedia_pt_neighbourhood_function.pdf}
+	\caption{Approximate neighbourhood function.}
+	\label{fig:neighfun}
+\end{figure}
+
+We have also obtained an estimation of the average path length through HyperBall \cite{Boldi2011HyperANFAT}. The estimated value is $ 4.9290 \pm 0.0026 $. This result reinforces what has been previously discussed, as it can be seen in Figure \ref{fig:neighfun} roughly a half of the nodes can be reached from each other in just 5 hops.
 
 \section{Discussion}
 
-The cumulative in degree $\gamma = 2.42$ parameter is lower than its out degree counterpart $\gamma = 3.89$. Although our data is unlabelled, we believe this phenomenon occurs because there are few Wikipedia pages which reference most of the others (ie. indexes), leading to a higher $\gamma$ in the out degree distribution. Conversely, the in degree distribution parameter $\gamma = 2.42$ is lower because pages are comparatively more uniformly referenced.
+The cumulative in-degree $\gamma = 2.42$ parameter is lower than its out-degree counterpart $\gamma = 3.89$. Although our data is unlabelled, we believe this phenomenon occurs because there are few Wikipedia pages which reference most of the others (ie. indexes), leading to a higher $\gamma$ in the out-degree distribution. Conversely, the in-degree distribution parameter $\gamma = 2.42$ is lower because pages are comparatively more uniformly referenced.
 
-In what regards the strongly connected components, as previously mentioned, we have found a giant one containig almost all the nodes in the graph, and also a very few small ones. This results are in accordance with the average degrees ($> ln(N)$) obtained, which imply a connected regime.
+In what regards the \acrshort{scc}s, as previously mentioned, we have found a giant one %ugly
+containing almost all the nodes ($1\,602\,960$) in the graph, and also a very few small ones. These results are in accordance with the average degrees ($> ln(N)$) obtained, which imply a connected regime.
+
+By analysing the approximate neighbourhood function, we have concluded that at around 10 hops, all the reachable nodes become connected.
 
 
-
-
+\printglossary[type=\acronymtype]
 
 \bibliographystyle{plain}
 \bibliography{references}
