@@ -4,14 +4,14 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import csv
 import numpy as np
-from scipy import stats
 import math
+import powerlaw
 
 matplotlib.rcParams['figure.figsize'] = [8.0, 6.0]
 matplotlib.rcParams['figure.dpi'] = 80
 matplotlib.rcParams['savefig.dpi'] = 100
 
-matplotlib.rcParams['font.size'] = 14
+matplotlib.rcParams['font.size'] = 18
 matplotlib.rcParams['legend.fontsize'] = 'large'
 matplotlib.rcParams['figure.titlesize'] = 'medium'
 
@@ -22,65 +22,27 @@ plt.rc('font', family='serif')
 
 for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegree', 'in')]:
 
-    x = []
     y = []
 
     with open(filename,'r') as csvfile:
         plots = csv.reader(csvfile, delimiter='\t')
         i = 0
         for row in plots:
-            x.append(i)
             i += 1
-            y.append(int(row[0]))
+            y += [i] * int(row[0])
 
-    for n in range(1, 3):
-        _x = np.power(np.array(x), n)
-        _y = np.array(y) / np.sum(y)
-        result = _x.dot(_y)
-        print(name, ": moment", n, result)
+    result = powerlaw.Fit(y)
 
-    x = x[1:]
-    y = y[1:]
-
-    plt.clf()
-    plt.loglog(x, y)
-    plt.xlabel(name.capitalize() + ' Degree')
-    plt.ylabel('Frequency')
-    plt.legend()
-
-    plt.savefig("wikipedia_pt_non_cumul_" + name + ".pdf")
-
-    for i in range(len(y)-1, 0, -1):
-        y[i-1] += y[i]
-
-    y = np.array(y) / y[0]
-
-    max_error = 0.981
-
-    logmiddle_index = int(math.sqrt(len(x)))
-
-    slope = 0
-    intercept = 0
-    p_value = 0
-    r_value = 0
-    x_min = 1
-    x_max = len(x)
-    while abs(r_value) < max_error:
-        slope, intercept, r_value, _, _ = stats.linregress(np.log(x[x_min:x_max]),np.log(y[x_min:x_max]))
-
-        if np.log(x[logmiddle_index]) * slope + intercept < np.log(y[logmiddle_index]):
-            x_min += max(int(np.log(x_min)), 1)
-        else:
-            x_max -= int(np.log(x_max)*10)
-
-    print(x_min, x_max, slope)
+    R, p = result.distribution_compare('power_law', 'exponential', normalized_ratio=True)
+    print(name, "R:",R,"P:",p)
 
     plt.clf()
 
-    plt.loglog(x, y)
-    plt.loglog(x[x_min:x_max], np.array(x[x_min:x_max]) ** slope * np.exp(intercept), label="$ \gamma = " + str("{0:.2f}".format(abs(slope) + 1)) + "$")
-    plt.xlabel('Cumulative ' + name.capitalize() + ' Degree')
-    plt.ylabel('Frequency')
+    fig = result.plot_ccdf()
+    result.power_law.plot_ccdf(linestyle='--', ax=fig,  label="$ \gamma = " + str("{0:.2f}".format(result.power_law.alpha)) + "$")
+
+    fig.set_xlabel(name.capitalize() + ' Degree')
+    fig.set_ylabel('Distribution')
     plt.legend()
 
     plt.savefig("wikipedia_pt_" + name + ".pdf")
@@ -161,6 +123,8 @@ with open('wikipedia_pt_harmonic_centrality.out', 'br') as data:
         (n,) = struct.unpack('!f', d)
         cc.append(n)
         d = data.read(4)
+
+cc = np.array(cc) / len(cc)
 
 plt.clf()
 plt.hist(cc, 35)
