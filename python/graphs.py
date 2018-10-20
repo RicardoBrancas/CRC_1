@@ -1,9 +1,19 @@
 #!/bin/python
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import csv
 import numpy as np
 from scipy import stats
 import math
+
+matplotlib.rcParams['figure.figsize'] = [8.0, 6.0]
+matplotlib.rcParams['figure.dpi'] = 80
+matplotlib.rcParams['savefig.dpi'] = 100
+
+matplotlib.rcParams['font.size'] = 14
+matplotlib.rcParams['legend.fontsize'] = 'large'
+matplotlib.rcParams['figure.titlesize'] = 'medium'
 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -22,6 +32,12 @@ for filename, name in [('wikipedia_pt.outdegree', 'out'), ('wikipedia_pt.indegre
             x.append(i)
             i += 1
             y.append(int(row[0]))
+
+    for n in range(1, 3):
+        _x = np.power(np.array(x), n)
+        _y = np.array(y) / np.sum(y)
+        result = _x.dot(_y)
+        print(name, ": moment", n, result)
 
     x = x[1:]
     y = y[1:]
@@ -93,21 +109,29 @@ plt.savefig('wikipedia_pt_sccdistr.pdf')
 # NEIGHBOURHOOD FUNCTION
 
 size = []
-count = []
+pdf = []
+pdf_err = []
+cdf = []
+cdf_err = []
 
-with open('wikipedia_pt_neighbourhood_function.out','r') as csvfile:
-    plots = csv.reader(csvfile, delimiter='\t')
-    i = 1
+with open('wikipedia_pt_anf_stats.out','r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=' ')
     for row in plots:
-        size.append(i)
-        i+=1
-        count.append(float(row[0]))
+        if row[0] == "PMF":
+            size.append(int(row[1]))
+            pdf.append(float(row[2]))
+            pdf_err.append(float(row[3]))
+        if row[0] == "CDF":
+            cdf.append(float(row[2]))
+            cdf_err.append(float(row[3]))
 
 plt.clf()
 
-plt.plot(size, count)
-plt.ylabel('Pairs of Nodes Connected')
+plt.errorbar(size, pdf, yerr=pdf_err, label="Distribution")
+plt.errorbar(size, cdf, yerr=cdf_err, label="Cumulative Distribution")
+plt.ylabel('Distribution')
 plt.xlabel('Distance')
+plt.legend()
 plt.savefig('wikipedia_pt_neighbourhood_function.pdf')
 
 # CLOSENESS CENTRALITY
