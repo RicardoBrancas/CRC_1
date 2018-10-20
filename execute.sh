@@ -6,8 +6,7 @@ cd ..
 java -cp java/lib/'*':java/ ConnectedComponents -s wikipedia_pt
 java -cp java/lib/'*':java/ it.unimi.dsi.webgraph.Stats -s wikipedia_pt
 
-java -cp java/lib/'*':java/ it.unimi.dsi.webgraph.Transform transpose wikipedia_pt wikipedia_pt_trans
-java -cp java/lib/'*':java/ it.unimi.dsi.webgraph.algo.BetweennessCentrality wikipedia_pt wikipedia_pt_betweenness.out
+#java -cp java/lib/'*':java/ it.unimi.dsi.webgraph.Transform transpose wikipedia_pt wikipedia_pt_trans
 
 #for i in {1..7}
 #do
