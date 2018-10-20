@@ -6,7 +6,7 @@
 \usepackage{cite}
 \usepackage[acronym]{glossaries}
 
- \setlength{\columnsep}{0.25in}
+ \setlength{\columnsep}{0.275in}
 
 \makeglossaries
 
@@ -28,6 +28,8 @@ The representation of this network consists of a node for each page, and an edge
 
 To analyse our data we use Webgraph, including snippets of code made available
 by Prof. Alexandre Francisco \cite{aplf}.
+
+%TODO OOOOOOOOOOOOOO
 
 \section{Methods}
 The network was originally represented as an edge list which was subsequently converted in an adjacency list (ASCII Graph), by use of a simple \texttt{C++} program, since this is the input
@@ -58,12 +60,12 @@ The network we have chosen contains $1\,603\,222$ vertices (pages) and $49\,021\
 	\caption{Degree distributions.}
 \end{figure}
 
-In figures ~\ref{fig:inddist} and~\ref{fig:outddist} we present the cumulative in-degree distribution and out-degree distribution, respectively, and their power-law regressions. The regressions were obtained using NumPy through a simplified method based on the one described by Clauset et al. \cite{Clauset2009}.
+In figures ~\ref{fig:inddist} and~\ref{fig:outddist} we present the in-degree distribution and out-degree distribution, respectively, and their power-law regressions. The regressions were obtained using the \texttt{powerlaw} package \cite{alstott_bullmore_plenz_2014} using a method described by Clauset et al. \cite{Clauset2009}.
 
-We have found that our degree distributions correlate highly with a power-law distribution (having a p-value of $0.0$ in both distributions), excluding the effects of low degree saturation and high degree cutoff; expected results of the finite nature of real networks.
+We have found that our degree distributions correlate highly with a power-law distribution, excluding the effects of low degree saturation and high degree cutoff; expected results of the finite nature of real networks.
 
-Based on the regressions computed, we found an in-degree parameter $\gamma = 2.42$ that is lower than its out-degree counterpart $\gamma = 3.89$. This difference in parameters helps explain the disparity between the maximum out-degree and the maximum in-degree. Although our data is unlabelled, we believe this phenomenon occurs because there are few Wikipedia pages which are referenced by most of the others, leading to higher maximum degree the in-degree distribution. Conversely, the out-degree distribution has a lower maximum degree, because it is uncommon for a single page to reference a lot of other pages (the number of references per page is within a shorter interval). The parameter gamma of the in-degree distribution is lower than in the out-degree because ... %TODO
-The variance for the in-degree distribution is $206\,082.30$. This result is also expected, since the power-law distribution has a $\gamma = 2.42$ implying a divergent variance for an infinite set. The variance of the out-degree distribution is significantly lower at $6\,296.66$, which is also expected, since a $ \gamma = 3.89 $ implies a finite variance, hence the lower value.
+Based on the regressions computed, we found an in-degree parameter $\gamma = 2.59$ that is lower than its out-degree counterpart $\gamma = 3.45$. This difference in parameters helps explain the disparity between the maximum out-degree and the maximum in-degree. Although our data is unlabelled, we believe this phenomenon occurs because there are few Wikipedia pages which are referenced by most of the others, leading to higher maximum degree the in-degree distribution. Conversely, the out-degree distribution has a lower maximum degree, because it is uncommon for a single page to reference a lot of other pages (the number of references per page is within a shorter interval). The parameter gamma of the in-degree distribution is lower than in the out-degree because ... %TODO
+The variance for the in-degree distribution is $206\,082.30$. This result is also expected, since the power-law distribution has a $\gamma = 2.59$ implying a divergent variance for an infinite set. The variance of the out-degree distribution is significantly lower at $6\,296.66$, which is also expected, since a $\gamma = 3.45$ implies a finite variance, hence the lower value.
 
 \begin{figure}[h]
 	\centering
@@ -100,7 +102,7 @@ We have also obtained an estimation of the Average Path Length through HyperBall
 	\label{fig:harmonic}
 \end{figure}
 
-Out of curiosity we decided to estimate the closeness centrality, and the results are just as expected. As it can be seen in Figure~\ref{fig:closeness} almost all nodes have a closeness centrality of 0, this is due to our graph not being connected. Since this measure does not give us any further information on the graph, we also decided to calculate the harmonic centrality, which nicely allows the existence of disconnected nodes by giving them less weight than to the closer vertices, which means their contribution is close to 0. Figure~\ref{fig:harmonic} exhibits the obtained results. If a node had an harmonic centrality of $1$, it would be it was just at 1 hop of any other one. In Figure~\ref{fig:harmonic} we can observe there are approximately $500\,000$ nodes isolated from the rest of the network 
+Out of curiosity we decided to estimate the closeness centrality, and the results are just as expected. As it can be seen in Figure~\ref{fig:closeness} almost all nodes have a closeness centrality of 0, this is due to our graph not being connected. Since this measure does not give us any further information on the graph, we also decided to calculate the harmonic centrality, which nicely allows the existence of disconnected nodes by giving them less weight than to the closer vertices, which means their contribution is close to 0. Figure~\ref{fig:harmonic} exhibits the obtained results. If a node had an harmonic centrality of $1$, it would mean it was just at 1 hop of any other node. In Figure~\ref{fig:harmonic} we can observe there are $465\,301$ nodes isolated from the rest of the network, the remaining nodes have an average harmonic centrality of $0.22$. As such, the maximum harmonic centrality for any node would be $$1-\frac{465\,279}{1\,603\,222}=0.7098$$ since there are $465\,279$ unreachable nodes.
 
 We have also verified a Shortest Path Index of Dispersion (SPID) of $0.2287 \pm 1.9232 \times 10^{-4}$, which according to Boldi et al. \cite{Boldi2011HyperANFAT} correlates to a ``properly social" network.
 
@@ -108,6 +110,7 @@ We have also verified a Shortest Path Index of Dispersion (SPID) of $0.2287 \pm 
 
 In short we conclude that the Portuguese section of Wikipedia displays a scale free behaviour, governed by a power law distribution. The regression gamma, as usual in Web networks, is higher for the out-degree distribution than for the in-degree.
 
+%TODO OOOOOOOOOOOOOO
 
 \printglossary[type=\acronymtype]
 
