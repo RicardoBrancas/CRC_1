@@ -110,6 +110,7 @@ with open('wikipedia_pt_closeness_centrality.out', 'br') as data:
 plt.clf()
 plt.hist(cc, 20)
 plt.ylabel('Absolute Frequency')
+plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 plt.xlabel('Closeness Centrality')
 plt.savefig('wikipedia_pt_closeness_centrality.pdf')
 
@@ -117,32 +118,23 @@ plt.savefig('wikipedia_pt_closeness_centrality.pdf')
 import struct
 
 cc = []
+zero_count = 0
 with open('wikipedia_pt_harmonic_centrality.out', 'br') as data:
     d = data.read(4)
     while d:
         (n,) = struct.unpack('!f', d)
+        if n <= 0.1:
+            zero_count += 1
         cc.append(n)
         d = data.read(4)
+
+print(zero_count, 'zeros in harmonic centrality')
 
 cc = np.array(cc) / len(cc)
 
 plt.clf()
 plt.hist(cc, 35)
+plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 plt.ylabel('Absolute Frequency')
 plt.xlabel('Harmonic Centrality')
 plt.savefig('wikipedia_pt_harmonic_centrality.pdf')
-
-# SUM OF DISTANCES
-import struct
-
-cc = []
-with open('wikipedia_pt_sum_of_distances.out', 'br') as data:
-    d = data.read(4)
-    while d:
-        (n,) = struct.unpack('!f', d)
-        cc.append(n)
-        d = data.read(4)
-
-plt.clf()
-plt.hist(cc, 20)
-plt.savefig('wikipedia_pt_sum_of_distances.pdf')
