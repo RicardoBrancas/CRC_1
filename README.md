@@ -7,6 +7,8 @@ plots, graphs and report source code.
 
 The report itself is in the file report.tex
 
+The execute.sh file contains all the commands needed to generate the figures. (some of them are very computationally intensive)
+
 ## Java
 In java directoy, you can find some source files, and webgraph and it's dependencies.
 
